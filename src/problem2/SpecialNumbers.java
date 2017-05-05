@@ -1,5 +1,6 @@
 package problem2;
 
+import java.util.Random;
 /**
  *
  * @author Rudy Leiva
@@ -11,10 +12,10 @@ public class SpecialNumbers {
     private int nonPrimeNum;
     private int primeNum;
     private int perfectNum;
-    
+    private Random random = new Random();
     public SpecialNumbers() {
-        this.nonPrimeNum = (int) (Math.random() * 9999) + 1; //i thinks this is right..
-        this.primeNum = (int) (Math.random() * 9999) + 1;
+        this.nonPrimeNum = random.nextInt(10000) + 1; //i thinks this is right..
+        this.primeNum = random.nextInt(10000) + 1;
         this.perfectNum = weightedRandom();
     }
     /**
@@ -26,12 +27,23 @@ public class SpecialNumbers {
         this.perfectNum = perfectNum;
     }
     /**
-     * TODO: Finish creating a weighted random..
-     * @return 
+     * @note I hope all these random generators are correct!
      */
     private int weightedRandom() {
-        
-        return 1;
+        /*get a number between 1 and 10 for temp*/
+        int temp = random.nextInt(10) + 1; 
+        int num; //this will be the value we return
+        if(temp >= 3) {
+            num = random.nextInt(50) + 1;
+        } else if (temp >= 8) {
+            num = random.nextInt(400) + 51;
+        } else if (temp >= 9 ) {
+            num = random.nextInt(50) + 451;
+        } else { //do this incase the random generation is wrong
+            System.out.println("ERROR in Weighted Random! " + temp);
+            num = -1;
+        }
+        return num;
     }
     /*getters and setters*/
     public int getNonPrimeNum() {
