@@ -22,13 +22,13 @@ public class Container {
     }
     public boolean collidesWith(Ball ball) {
         /*check if the ball is outside of the box*/
-        if(ball.getX() >= x2 || ball.getX() <= x1) {
-            System.out.println("The size of the ball is: " + ball.getSize());
+        if(ball.getX() + ball.getRadius() >= x2 || ball.getX() - ball.getRadius() <= x1) {
+            //System.out.println("The size of the ball is: " + ball.getSize());
             ball.reflectHorizontal();
             return true;
         }
-        if(ball.getY() >= y2 || ball.getY() <= y1) {
-            System.out.println("The size of the ball is: " + ball.getSize());
+        if(ball.getY() + ball.getRadius() >= y2 || ball.getY() - ball.getRadius() <= y1) {
+            //System.out.println("The size of the ball is: " + ball.getSize());
             ball.reflectVertical();
             return true;
         }
