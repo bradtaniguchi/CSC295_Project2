@@ -7,7 +7,10 @@ package problem2;
 
 /**
  *
- * @author rleiva
+ * @author Rudy Leiva
+ * @author Bradley Taniguchi
+ * 5/1/17
+ * CSC 295
  */
 public class Task {
     
