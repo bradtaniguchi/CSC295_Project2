@@ -1,6 +1,6 @@
 package problem2;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
@@ -9,11 +9,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * 5/1/17
  * CSC 295
  */
-public class Worker extends Thread 
-    {
-        private ConcurrentLinkedQueue<Task> taskQueue;
-        
-        public Worker(ConcurrentLinkedQueue<Task> taskQueue) {
+public class Worker extends Thread {
+    private LinkedBlockingQueue<Task> taskQueue;
+
+    public Worker(LinkedBlockingQueue<Task> taskQueue) {
         this.taskQueue = taskQueue;
     }
     

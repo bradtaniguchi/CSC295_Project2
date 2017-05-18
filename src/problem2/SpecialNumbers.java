@@ -28,6 +28,7 @@ public class SpecialNumbers {
     }
     /**
      * @note I hope all these random generators are correct!
+     * THEY AREN'T!
      */
     private int weightedRandom() {
         /*get a number between 1 and 10 for temp*/

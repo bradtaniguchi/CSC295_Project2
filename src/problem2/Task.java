@@ -1,5 +1,7 @@
 package problem2;
 
+import java.util.concurrent.LinkedBlockingQueue;
+
 /**
  *
  * @author Rudy Leiva
@@ -8,14 +10,31 @@ package problem2;
  * CSC 295
  */
 public class Task {
+    private LinkedBlockingQueue<Boolean> results;
+    private int start;
+    private int end;
+
+    public Task(int start, int end, LinkedBlockingQueue<Boolean> results) {
+        this.results = results;
+        this.start = start;
+        this.end = end;
+    }
     
-    
+    /**
+     * Function that calculates if the given number matches the specifications.
+     * If the given matches the specifications, we will push a a true result
+     * into the results Queue. If it doesn't we append a false value into the
+     * queue. 
+     */
+    public void calculate() {
+        // test the value here...
+    }
     /**
      * checks whether an integer is prime or not.
      * @param n the number to check
      * @return if the number is prime or not.
      */
-    boolean isPrime(int n)
+    private boolean isPrime(int n)
     {
         //check if n is a multiple of 2
         if (n%2==0) return false;
@@ -32,7 +51,7 @@ public class Task {
      * @param n the number to check
      * @return  if the number is perfect or not.
      */
-    boolean isPerfect(int n)
+    private boolean isPerfect(int n)
     {
         int sum = 0;
 
@@ -43,13 +62,6 @@ public class Task {
                 sum += i;
             }
         }
-        if(sum == n)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return sum == n;
     }
 }
