@@ -10,25 +10,42 @@ import java.util.concurrent.LinkedBlockingQueue;
  * CSC 295
  */
 public class Task {
-    private LinkedBlockingQueue<Boolean> results;
+    private LinkedBlockingQueue<SpecialNumbers> results;
+    private SpecialNumbers[] numbers;
     private int start;
     private int end;
 
-    public Task(int start, int end, LinkedBlockingQueue<Boolean> results) {
+    public Task(int start, int end, SpecialNumbers[] numbers, LinkedBlockingQueue<SpecialNumbers> results) {
         this.results = results;
+        this.numbers = numbers;
         this.start = start;
         this.end = end;
     }
-    
+
     /**
-     * Function that calculates if the given number matches the specifications.
-     * If the given matches the specifications, we will push a a true result
-     * into the results Queue. If it doesn't we append a false value into the
-     * queue. 
+     * Calculates the given array locations given by start and end.
      */
     public void calculate() {
-        // test the value here...
+        for (int i = start; i < end; i++) {
+            SpecialNumbers number = numbers[i];
+            // check if nonPrimeNum is not prime
+            if (isPrime(number.getNonPrimeNum())) {
+                continue;
+            }
+            // check if primeNum is a primeNumber
+            if (!isPrime(number.getPrimeNum())) {
+                continue;
+            }
+            // check if perfectNum is a perfectNumber
+            if (!isPerfect(number.getPerfectNum())) {
+                continue;
+            }
+            // add the number to the results queue, we will check the varience
+            // later when all the results come in.
+            this.results.add(number); 
+        }
     }
+
     /**
      * checks whether an integer is prime or not.
      * @param n the number to check
@@ -45,7 +62,16 @@ public class Task {
         }
         return true;
     }
-
+    
+//    /**
+//     * 
+//     * @param n
+//     * @return the varience of
+//     * 
+//     */
+//    private double getVarience(int n) {
+//        
+//    }
     /**
      * checks whether an integer is perfect or not.
      * @param n the number to check

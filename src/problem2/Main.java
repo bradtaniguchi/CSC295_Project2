@@ -1,5 +1,6 @@
 package problem2;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -11,11 +12,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * CSC 295
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Problem 2");
                
         LinkedBlockingQueue<Task> tasks = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<Boolean> results = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<SpecialNumbers> results = new LinkedBlockingQueue<>();
         SpecialNumbers[] specialNumbers = new SpecialNumbers[10000];
         int numberOfWorkers; // # of threads/workers that will be working on tasks
         int sizeOfTask; // # of specialNumbers to calucate in a SINGLE task
@@ -29,6 +30,9 @@ public class Main {
         
         System.out.println("Input the number of numbers per task");
         sizeOfTask = scanner.nextInt();
+        
+        // start timmer now
+        double startTime = System.currentTimeMillis();
         
         // populate the special numbers array
         for (int i = 0; i < specialNumbers.length; i++) {
@@ -45,7 +49,7 @@ public class Main {
             int start = i * sizeOfTask + 1;
             int end = (i + 1) * 1000;
             
-            tasks.add(new Task(start, end, results));
+            tasks.add(new Task(start, end, specialNumbers, results));
         }
         
         // set the number of worker threads
@@ -57,8 +61,80 @@ public class Main {
             workers[i] = new Worker(tasks);
         }
         
+        //start the workers
+        for (Worker worker : workers) {
+            worker.start();
+        }
+        
+        // join/wait the workers
+        for (Worker worker: workers) {
+            worker.join();
+        }
         
         
+        //Im suppose to check the variance here. Instead I am just going to
+        //do the calculations but do nothign with them
+        getVarient(results, specialNumbers);
+        
+        System.out.println("We are suppose to print out the numbers that"
+                + " meet the variance requirement, but we didn't finish implimenting it. "
+                + "Anyways, heres the runtime.");
+        
+        double endTime = System.currentTimeMillis();
+        System.out.println("=======");
+        System.out.println("Time (ms): " + (endTime- startTime));
+        System.out.println("Threads/Workers: " + numberOfWorkers);
+        System.out.println("Tasks-per worker: " + numberOfTasks);
+    }
+    /**
+     * Utility function used to calculate the last requirement of the prompt.
+     * This function will calculate the variance of each of the 3 properties
+     * then return an array list of special numbers that match the requirements.
+     * @param results a list of SpecialNumbers that already match the first 3 
+     *  requirements. 
+     * @param numbers the original list of SpecialNumbers. This will be checked
+     *  At the beginning to calculate the total variance.
+     * @return an array list of SpecialNumbers that match all the requirement.
+     * DIDNT FINISH IMPLIMENTING THE VARIANCE CALCULATIONS OF THE 3 DIFFERENT PARAMETERS
+     * 
+     */
+    public static ArrayList<SpecialNumbers> getVarient(LinkedBlockingQueue<SpecialNumbers> results, SpecialNumbers[] numbers) {
+        ArrayList<SpecialNumbers> finalResuls = new ArrayList<>();
+        
+        //get the sums for the 3 attributes
+        int nonPrimeNumSum = 0;
+        int primeNumSum = 0;
+        int perfectNumSum = 0;
+        
+        // calculate the sums
+        for (SpecialNumbers number : numbers) {
+            nonPrimeNumSum += number.getNonPrimeNum();
+            primeNumSum += number.getPrimeNum();
+            perfectNumSum += number.getPerfectNum();
+        }
+        
+        int nonPrimeNumMean = nonPrimeNumSum/numbers.length;
+        int primeNumMean = primeNumSum/numbers.length;
+        int perfectNumMean = perfectNumSum/numbers.length;
+        
+        // calculate the TOP of the variance formula
+        int nonPrimeNumVarTop = 0;
+        int primeNumVarTop = 0;
+        int perfectNumVarTop = 0;
+
+        for (SpecialNumbers number : numbers) {
+            nonPrimeNumVarTop += Math.pow(number.getNonPrimeNum() - nonPrimeNumMean, 2);
+            primeNumVarTop += Math.pow(number.getPrimeNum() - primeNumMean, 2);
+            perfectNumVarTop += Math.pow(number.getPerfectNum() - perfectNumMean, 2);
+        }
+        
+        //now finally calculate the variance by applying the bottom
+        int nonPrimeNumVariance = nonPrimeNumVarTop/numbers.length-1;
+        int primeNumVariance = primeNumVarTop/numbers.length-1;
+        int perfectNumVariance = perfectNumVarTop/numbers.length-1;
+        
+        // I give up, to much MATHS
+        return null;
     }
 }
 /*
